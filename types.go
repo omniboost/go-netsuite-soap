@@ -153,6 +153,7 @@ type Classification struct {
 type JournalEntry struct {
 	TranGeneral      string            `xml:"tranGeneral,attr,omitempty"`
 	InternalId       string            `xml:"internalId,attr,omitempty"`
+	ExternalId       string            `xml:"externalId,attr,omitempty"`
 	Type             string            `xml:"type,attr,omitempty"`
 	TranDate         Date              `xml:"tranDate,omitempty"`
 	Currency         RecordRef         `xml:"currency,omitempty"`
