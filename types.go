@@ -348,14 +348,7 @@ type Transaction struct {
 		AddrText        string `xml:"addrText"`
 		Override        string `xml:"override"`
 		CustomFieldList struct {
-			Text        string `xml:",chardata"`
-			CustomField []struct {
-				Text       string `xml:",chardata"`
-				InternalID string `xml:"internalId,attr"`
-				ScriptID   string `xml:"scriptId,attr"`
-				Type       string `xml:"type,attr"`
-				Value      string `xml:"value"`
-			} `xml:"customField"`
+			CustomField CustomFields `xml:"customField"`
 		} `xml:"customFieldList"`
 	} `xml:"billingAddress"`
 	BillAddressList struct {
@@ -375,14 +368,7 @@ type Transaction struct {
 		AddrText        string `xml:"addrText"`
 		Override        string `xml:"override"`
 		CustomFieldList struct {
-			Text        string `xml:",chardata"`
-			CustomField []struct {
-				Text       string `xml:",chardata"`
-				InternalID string `xml:"internalId,attr"`
-				ScriptID   string `xml:"scriptId,attr"`
-				Type       string `xml:"type,attr"`
-				Value      string `xml:"value"`
-			} `xml:"customField"`
+			CustomField CustomFields `xml:"customField"`
 		} `xml:"customFieldList"`
 	} `xml:"shippingAddress"`
 	ShipIsResidential string `xml:"shipIsResidential"`
@@ -426,14 +412,7 @@ type Transaction struct {
 			} `xml:"taxCode"`
 			TaxRate1        string `xml:"taxRate1"`
 			CustomFieldList struct {
-				Text        string `xml:",chardata"`
-				CustomField []struct {
-					Text       string `xml:",chardata"`
-					InternalID string `xml:"internalId,attr"`
-					ScriptID   string `xml:"scriptId,attr"`
-					Type       string `xml:"type,attr"`
-					Value      string `xml:"value"`
-				} `xml:"customField"`
+				CustomField CustomFields `xml:"customField"`
 			} `xml:"customFieldList"`
 		} `xml:"item"`
 	} `xml:"itemList"`
