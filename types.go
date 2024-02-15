@@ -266,6 +266,7 @@ type Invoice struct {
 	Currency              RecordRef       `xml:"currency,omitempty"`
 	DueDate               Date            `xml:"dueDate,omitempty"`
 	OtherRefNum           string          `xml:"otherRefNum,omitempty"`
+	Location              RecordRef       `xml:"location,omitempty"`
 	Memo                  string          `xml:"memo,omitempty"`
 	TotalCostEstimate     string          `xml:"totalCostEstimate,omitempty"`
 	EstGrossProfit        string          `xml:"estGrossProfit,omitempty"`
@@ -451,6 +452,7 @@ type InvoiceItem struct {
 	Price           RecordRef `xml:"price,omitempty"`
 	Rate            float64   `xml:"rate,omitempty"`
 	Department      RecordRef `xml:"department,omitempty"`
+	Location        RecordRef `xml:"location,omitempty"`
 	GrossAmt        float64   `xml:"grossAmt,omitempty"`
 	Tax1Amt         float64   `xml:"tax1Amt,omitempty"`
 	Tax1Acct        RecordRef `xml:"tax1Acct,omitempty"`
@@ -518,6 +520,7 @@ type CreditMemo struct {
 	Currency              RecordRef `xml:"currency,omitempty"`
 	DueDate               Date      `xml:"dueDate,omitempty"`
 	OtherRefNum           string    `xml:"otherRefNum,omitempty"`
+	Location              RecordRef `xml:"location,omitempty"`
 	Memo                  string    `xml:"memo,omitempty"`
 	TotalCostEstimate     string    `xml:"totalCostEstimate,omitempty"`
 	EstGrossProfit        string    `xml:"estGrossProfit,omitempty"`
@@ -564,6 +567,7 @@ type CreditMemoItem struct {
 	Price           RecordRef `xml:"price,omitempty"`
 	Rate            float64   `xml:"rate,omitempty"`
 	Department      RecordRef `xml:"department,omitempty"`
+	Location        RecordRef `xml:"location,omitempty"`
 	GrossAmt        float64   `xml:"grossAmt,omitempty"`
 	Tax1Amt         float64   `xml:"tax1Amt,omitempty"`
 	Tax1Acct        RecordRef `xml:"tax1Acct,omitempty"`
