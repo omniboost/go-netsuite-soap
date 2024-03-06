@@ -300,6 +300,7 @@ type Transaction struct {
 	TranSales        string `xml:"tranSales,attr"`
 	InternalID       string `xml:"internalId,attr"`
 	Type             string `xml:"type,attr"`
+	ExternalID       string `xml:"externalId,attr"`
 	CreatedDate      string `xml:"createdDate"`
 	LastModifiedDate string `xml:"lastModifiedDate"`
 	Entity           struct {
