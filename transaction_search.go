@@ -271,7 +271,7 @@ type TransactionSearchBasic struct {
 	ExpectedReceiptDate          SearchDateField            `xml:"platformCore:expectedReceiptDate,omitempty"`
 	ExpenseCategory              SearchMultiSelectField     `xml:"platformCore:expenseCategory,omitempty"`
 	ExpenseDate                  SearchDateField            `xml:"platformCore:expenseDate,omitempty"`
-	ExternalId                   SearchMultiSelectField     `xml:"platformCore:externalId,omitempty"`
+	ExternalId                   SearchMultiSelectField     `xml:"platformCommon:externalId,omitempty"`
 	ExternalIdString             SearchStringField          `xml:"platformCore:externalIdString,omitempty"`
 	FinChrg                      SearchBooleanField         `xml:"platformCore:finChrg,omitempty"`
 	Firmed                       SearchBooleanField         `xml:"platformCore:firmed,omitempty"`
