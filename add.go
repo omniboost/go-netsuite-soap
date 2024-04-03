@@ -109,7 +109,7 @@ func (r *AddRequest) NewResponseBody() *AddRequestResponseBody {
 }
 
 type AddRequestResponseBody struct {
-	XMLName xml.Name `xml:"AddResponse"`
+	XMLName xml.Name `xml:"addResponse"`
 
 	AddResult struct {
 		Text         string `xml:",chardata"`
@@ -123,6 +123,19 @@ type AddRequestResponseBody struct {
 			Record []interface{} `xml:"recordList>record"`
 		} `xml:"recordList"`
 	} `xml:"addResult"`
+
+	WriteResponse struct {
+		Status       struct {
+			Text      string `xml:",chardata"`
+			IsSuccess string `xml:"isSuccess,attr"`
+		} `xml:"status"`
+		BaseRef struct {
+			InternalID string `xml:"internalId,attr"`
+			ExternalID string `xml:"externalId,attr"`
+			Type       string `xml:"type,attr"`
+			XSIType    string `xml:"xsi:type,attr"`
+		} `xml:"baseRef"`
+	} `xml:"writeResponse"`
 }
 
 func (r *AddRequest) URL() (*url.URL, error) {
