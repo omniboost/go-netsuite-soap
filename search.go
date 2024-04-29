@@ -250,7 +250,9 @@ func (s SearchLongField) IsEmpty() bool {
 	return zero.IsZero(s)
 }
 
-type SearchBooleanField struct{}
+type SearchBooleanField struct {
+	SearchValue bool `xml:"platformCore:searchValue"`
+}
 
 func (s SearchBooleanField) IsEmpty() bool {
 	return zero.IsZero(s)
@@ -364,8 +366,43 @@ func (s SearchStringCustomField) MarshalXML(e *xml.Encoder, start xml.StartEleme
 type SearchRecordBasic struct { // SearchRecordBasic
 	XMLName xml.Name `xml:"platformMsgs:searchRecord"`
 
+	Type  string      `xml:"xsi:type,attr"`
+	Basic interface{} `xml:"basic"`
+}
+
+type SearchRecordBasicTransaction struct {
+	XMLName xml.Name `xml:"platformMsgs:searchRecord"`
+
 	Type  string                 `xml:"xsi:type,attr"`
 	Basic TransactionSearchBasic `xml:"basic"`
+}
+
+type SearchRecordBasicAccount struct {
+	XMLName xml.Name `xml:"platformMsgs:searchRecord"`
+
+	Type  string             `xml:"xsi:type,attr"`
+	Basic AccountSearchBasic `xml:"basic"`
+}
+
+type SearchRecordBasicClassification struct {
+	XMLName xml.Name `xml:"platformMsgs:searchRecord"`
+
+	Type  string             `xml:"xsi:type,attr"`
+	Basic ClassificationSearchBasic `xml:"basic"`
+}
+
+type SearchRecordBasicDepartment struct {
+	XMLName xml.Name `xml:"platformMsgs:searchRecord"`
+
+	Type  string             `xml:"xsi:type,attr"`
+	Basic DepartmentSearchBasic `xml:"basic"`
+}
+
+type SearchRecordBasicLocation struct {
+	XMLName xml.Name `xml:"platformMsgs:searchRecord"`
+
+	Type  string             `xml:"xsi:type,attr"`
+	Basic LocationSearchBasic `xml:"basic"`
 }
 
 type SearchDateField struct {

@@ -86,7 +86,7 @@ func (r *ClassificationSearchRequest) Method() string {
 
 func (r ClassificationSearchRequest) NewRequestBody() ClassificationSearchRequestBody {
 	return ClassificationSearchRequestBody{
-		SearchRecord: SearchRecordBasic{
+		SearchRecord: SearchRecordBasicClassification{
 			Type: "listAcct:ClassificationSearch",
 		},
 	}
@@ -95,7 +95,7 @@ func (r ClassificationSearchRequest) NewRequestBody() ClassificationSearchReques
 type ClassificationSearchRequestBody struct {
 	XMLName xml.Name `xml:"platformMsgs:search"`
 
-	SearchRecord SearchRecordBasic `xml:"platformMsgs:searchRecord"`
+	SearchRecord SearchRecordBasicClassification `xml:"platformMsgs:searchRecord"`
 }
 
 func (r *ClassificationSearchRequest) RequestBody() *ClassificationSearchRequestBody {

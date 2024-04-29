@@ -86,7 +86,7 @@ func (r *TransactionSearchRequest) Method() string {
 
 func (r TransactionSearchRequest) NewRequestBody() TransactionSearchRequestBody {
 	return TransactionSearchRequestBody{
-		SearchRecord: SearchRecordBasic{
+		SearchRecord: SearchRecordBasicTransaction{
 			Type: "tranSales:TransactionSearch",
 		},
 	}
@@ -95,7 +95,7 @@ func (r TransactionSearchRequest) NewRequestBody() TransactionSearchRequestBody 
 type TransactionSearchRequestBody struct {
 	XMLName xml.Name `xml:"platformMsgs:search"`
 
-	SearchRecord SearchRecordBasic `xml:"platformMsgs:searchRecord"`
+	SearchRecord SearchRecordBasicTransaction `xml:"platformMsgs:searchRecord"`
 }
 
 func (r *TransactionSearchRequest) RequestBody() *TransactionSearchRequestBody {

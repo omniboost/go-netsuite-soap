@@ -86,7 +86,7 @@ func (r *LocationSearchRequest) Method() string {
 
 func (r LocationSearchRequest) NewRequestBody() LocationSearchRequestBody {
 	return LocationSearchRequestBody{
-		SearchRecord: SearchRecordBasic{
+		SearchRecord: SearchRecordBasicLocation{
 			Type: "listAcct:LocationSearch",
 		},
 	}
@@ -95,7 +95,7 @@ func (r LocationSearchRequest) NewRequestBody() LocationSearchRequestBody {
 type LocationSearchRequestBody struct {
 	XMLName xml.Name `xml:"platformMsgs:search"`
 
-	SearchRecord SearchRecordBasic `xml:"platformMsgs:searchRecord"`
+	SearchRecord SearchRecordBasicLocation `xml:"platformMsgs:searchRecord"`
 }
 
 func (r *LocationSearchRequest) RequestBody() *LocationSearchRequestBody {

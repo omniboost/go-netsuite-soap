@@ -86,7 +86,7 @@ func (r *AccountSearchRequest) Method() string {
 
 func (r AccountSearchRequest) NewRequestBody() AccountSearchRequestBody {
 	return AccountSearchRequestBody{
-		SearchRecord: SearchRecordBasic{
+		SearchRecord: SearchRecordBasicAccount{
 			Type: "listAcct:AccountSearch",
 		},
 	}
@@ -95,7 +95,7 @@ func (r AccountSearchRequest) NewRequestBody() AccountSearchRequestBody {
 type AccountSearchRequestBody struct {
 	XMLName xml.Name `xml:"platformMsgs:search"`
 
-	SearchRecord SearchRecordBasic `xml:"platformMsgs:searchRecord"`
+	SearchRecord SearchRecordBasicAccount `xml:"platformMsgs:searchRecord"`
 }
 
 func (r *AccountSearchRequest) RequestBody() *AccountSearchRequestBody {
