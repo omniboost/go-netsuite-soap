@@ -839,3 +839,80 @@ type ItemSearchRecordBasic struct {
 type Locations []Location
 
 type Location RecordRef
+
+// CategoryList represents a list of categories.
+type CategoryList struct {
+	Category []*RecordRef `xml:"category,omitempty"`
+}
+
+// ContactAddress represents an address in the contact's address book.
+type ContactAddress struct {
+	DefaultShipping bool    `xml:"defaultShipping,omitempty"`
+	DefaultBilling  bool    `xml:"defaultBilling,omitempty"`
+	Label           string  `xml:"label,omitempty"`
+	Address         Address `xml:"addressbookAddress,omitempty"`
+	InternalID      string  `xml:"internalId,omitempty"`
+}
+
+// ContactAddressbookList represents a list of addresses in the contact's address book.
+type ContactAddressbookList struct {
+	Addressbook []*ContactAddress `xml:"addressbook,omitempty"`
+	ReplaceAll  bool              `xml:"replaceAll,attr,omitempty"`
+}
+
+// Subscriptions represents subscription details.
+type Subscriptions struct {
+	Subscribed       *bool      `xml:"subscribed,omitempty"`
+	Subscription     *RecordRef `xml:"subscription,omitempty"`
+	LastModifiedDate Date       `xml:"lastModifiedDate,omitempty"`
+}
+
+// SubscriptionsList represents a list of subscriptions.
+type SubscriptionsList struct {
+	Subscriptions []*Subscriptions `xml:"subscriptions,omitempty"`
+	ReplaceAll    bool             `xml:"replaceAll,attr,omitempty"`
+}
+
+type Contacts []Contact
+
+// Contact represents the structure of the Contact based on the provided XSD schema.
+type Contact struct {
+	CustomForm        *RecordRef              `xml:"customForm,omitempty"`
+	EntityID          string                  `xml:"entityId,omitempty"`
+	ContactSource     *RecordRef              `xml:"contactSource,omitempty"`
+	Company           *RecordRef              `xml:"company,omitempty"`
+	Salutation        string                  `xml:"salutation,omitempty"`
+	FirstName         string                  `xml:"firstName,omitempty"`
+	MiddleName        string                  `xml:"middleName,omitempty"`
+	LastName          string                  `xml:"lastName,omitempty"`
+	Title             string                  `xml:"title,omitempty"`
+	Phone             string                  `xml:"phone,omitempty"`
+	Fax               string                  `xml:"fax,omitempty"`
+	Email             string                  `xml:"email,omitempty"`
+	DefaultAddress    string                  `xml:"defaultAddress,omitempty"`
+	IsPrivate         *bool                   `xml:"isPrivate,omitempty"`
+	IsInactive        *bool                   `xml:"isInactive,omitempty"`
+	Subsidiary        *RecordRef              `xml:"subsidiary,omitempty"`
+	PhoneticName      string                  `xml:"phoneticName,omitempty"`
+	CategoryList      *CategoryList           `xml:"categoryList,omitempty"`
+	AltEmail          string                  `xml:"altEmail,omitempty"`
+	OfficePhone       string                  `xml:"officePhone,omitempty"`
+	HomePhone         string                  `xml:"homePhone,omitempty"`
+	MobilePhone       string                  `xml:"mobilePhone,omitempty"`
+	Supervisor        *RecordRef              `xml:"supervisor,omitempty"`
+	SupervisorPhone   string                  `xml:"supervisorPhone,omitempty"`
+	Assistant         *RecordRef              `xml:"assistant,omitempty"`
+	AssistantPhone    string                  `xml:"assistantPhone,omitempty"`
+	Comments          string                  `xml:"comments,omitempty"`
+	Image             *RecordRef              `xml:"image,omitempty"`
+	BillPay           *bool                   `xml:"billPay,omitempty"`
+	DateCreated       *DateTime               `xml:"dateCreated,omitempty"`
+	LastModifiedDate  *DateTime               `xml:"lastModifiedDate,omitempty"`
+	AddressbookList   *ContactAddressbookList `xml:"addressbookList,omitempty"`
+	SubscriptionsList *SubscriptionsList      `xml:"subscriptionsList,omitempty"`
+	CustomFieldList   struct {
+		CustomField CustomFields `xml:"customField,omitempty"`
+	} `xml:"customFieldList,omitempty"`
+	InternalID string `xml:"internalId,attr"`
+	ExternalID string `xml:"externalId,attr"`
+}
