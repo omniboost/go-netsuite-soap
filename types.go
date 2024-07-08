@@ -197,13 +197,13 @@ type JournalEntryLine struct {
 
 	Account         RecordRef `xml:"account"`
 	Line            int       `xml:"line,omitempty"`
-	Debit           float64   `xml:"debit,omitempty"`
+	Debit           float64   `xml:"debit"`
 	Memo            string    `xml:"memo"`
 	Eliminate       string    `xml:"eliminate,omitempty"`
 	CustomFieldList struct {
 		CustomField CustomFields `xml:"customField,omitempty"`
 	} `xml:"customFieldList,omitempty"`
-	Credit     float64   `xml:"credit,omitempty"`
+	Credit     float64   `xml:"credit"`
 	Location   RecordRef `xml:"location,omitempty"`
 	Department RecordRef `xml:"department,omitempty"`
 	Class      RecordRef `xml:"class,omitempty"`
