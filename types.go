@@ -606,6 +606,8 @@ type StatisticalJournalEntry struct {
 	Subsidiary         RecordRef                    `xml:"subsidiary,omitempty"`
 	TranDate           Date                         `xml:"tranDate,omitempty"`
 	TranID             string                       `xml:"tranId,omitempty"`
+	InternalId         string                       `xml:"internalId,attr,omitempty"`
+	ExternalId         string                       `xml:"externalId,attr,omitempty"`
 	// This field displays the unit type to associate with this statistical journal entry.
 	UnitsType RecordRef `xml:"unitsType,omitempty"`
 }
