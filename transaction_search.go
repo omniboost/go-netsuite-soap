@@ -272,7 +272,7 @@ type TransactionSearchBasic struct {
 	ExpenseCategory              SearchMultiSelectField     `xml:"platformCore:expenseCategory,omitempty"`
 	ExpenseDate                  SearchDateField            `xml:"platformCore:expenseDate,omitempty"`
 	ExternalId                   SearchMultiSelectField     `xml:"platformCommon:externalId,omitempty"`
-	ExternalIdString             SearchStringField          `xml:"platformCore:externalIdString,omitempty"`
+	ExternalIdString             SearchStringField          `xml:"platformCommon:externalIdString,omitempty"`
 	FinChrg                      SearchBooleanField         `xml:"platformCore:finChrg,omitempty"`
 	Firmed                       SearchBooleanField         `xml:"platformCore:firmed,omitempty"`
 	ForecastType                 SearchEnumMultiSelectField `xml:"platformCore:forecastType,omitempty"`
