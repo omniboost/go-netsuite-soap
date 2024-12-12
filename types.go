@@ -630,7 +630,7 @@ type StatisticalJournalEntryLine struct {
 	CustomFieldList struct {
 		CustomField CustomFields `xml:"customField,omitempty"`
 	} `xml:"customFieldList,omitempty"`
-	Debit        float64   `xml:"debit,omitempty"`
+	Debit        float64   `xml:"debit"`
 	Department   RecordRef `xml:"department,omitempty"`
 	Entity       RecordRef `xml:"entity,omitempty"`
 	Line         int       `xml:"line,omitempty"`
