@@ -316,6 +316,11 @@ type Transaction struct {
 		InternalID string `xml:"internalId,attr"`
 		Name       string `xml:"name"`
 	} `xml:"terms"`
+	Location struct {
+		Text       string `xml:",chardata"`
+		InternalID string `xml:"internalId,attr"`
+		Name       string `xml:"name"`
+	} `xml:"location"`
 	Subsidiary struct {
 		Text       string `xml:",chardata"`
 		InternalID string `xml:"internalId,attr"`
