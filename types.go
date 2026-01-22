@@ -332,6 +332,7 @@ type Transaction struct {
 		Name       string `xml:"name"`
 	} `xml:"currency"`
 	DueDate               string `xml:"dueDate"`
+	OtherRefNum           string `xml:"otherRefNum"`
 	Memo                  string `xml:"memo"`
 	TotalCostEstimate     string `xml:"totalCostEstimate"`
 	EstGrossProfit        string `xml:"estGrossProfit"`
