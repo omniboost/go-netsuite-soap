@@ -21,34 +21,35 @@ func (r RecordRef) IsEmpty() bool {
 type Customers []Customer
 
 type Customer struct {
-	InternalID           string    `xml:"internalId,attr,omitempty"`
-	ExternalID           string    `xml:"externalId,attr,omitempty"`
-	Type                 string    `xml:"type,attr,omitempty"`
-	ListRel              string    `xml:"listRel,attr,omitempty"`
-	EntityID             string    `xml:"entityId,omitempty"`
-	IsPerson             bool      `xml:"isPerson,omitempty"`
-	CompanyName          string    `xml:"companyName,omitempty"`
-	EntityStatus         RecordRef `xml:"entityStatus,omitempty"`
-	Phone                string    `xml:"phone,omitempty"`
-	Email                string    `xml:"email,omitempty"`
-	DefaultAddress       string    `xml:"defaultAddress,omitempty"`
-	IsInactive           string    `xml:"isInactive,omitempty"`
-	Language             string    `xml:"language,omitempty"`
-	DateCreated          Date      `xml:"dateCreated,omitempty"`
-	Subsidiary           RecordRef `xml:"subsidiary,omitempty"`
-	VatRegNumber         string    `xml:"vatRegNumber,omitempty"`
-	Terms                RecordRef `xml:"terms,omitempty"`
-	CreditLimit          string    `xml:"creditLimit,omitempty"`
-	UnbilledOrders       string    `xml:"unbilledOrders,omitempty"`
-	Currency             RecordRef `xml:"currency,omitempty"`
-	ShipComplete         string    `xml:"shipComplete,omitempty"`
-	AlcoholRecipientType string    `xml:"alcoholRecipientType,omitempty"`
-	ReceivablesAccount   RecordRef `xml:"receivablesAccount,omitempty"`
-	LastModifiedDate     DateTime  `xml:"lastModifiedDate,omitempty"`
-	Stage                string    `xml:"stage,omitempty"`
-	IsBudgetApproved     string    `xml:"isBudgetApproved,omitempty"`
-	FirstName            string    `xml:"firstName,omitempty"`
-	LastName             string    `xml:"lastName,omitempty"`
+	InternalID           string               `xml:"internalId,attr,omitempty"`
+	ExternalID           string               `xml:"externalId,attr,omitempty"`
+	Type                 string               `xml:"type,attr,omitempty"`
+	ListRel              string               `xml:"listRel,attr,omitempty"`
+	EntityID             string               `xml:"entityId,omitempty"`
+	IsPerson             bool                 `xml:"isPerson,omitempty"`
+	CompanyName          string               `xml:"companyName,omitempty"`
+	EntityStatus         RecordRef            `xml:"entityStatus,omitempty"`
+	Phone                string               `xml:"phone,omitempty"`
+	Email                string               `xml:"email,omitempty"`
+	DefaultAddress       string               `xml:"defaultAddress,omitempty"`
+	IsInactive           string               `xml:"isInactive,omitempty"`
+	Language             string               `xml:"language,omitempty"`
+	DateCreated          Date                 `xml:"dateCreated,omitempty"`
+	Subsidiary           RecordRef            `xml:"subsidiary,omitempty"`
+	VatRegNumber         string               `xml:"vatRegNumber,omitempty"`
+	Terms                RecordRef            `xml:"terms,omitempty"`
+	CreditLimit          string               `xml:"creditLimit,omitempty"`
+	UnbilledOrders       string               `xml:"unbilledOrders,omitempty"`
+	Currency             RecordRef            `xml:"currency,omitempty"`
+	CurrencyList         CustomerCurrencyList `xml:"currencyList,omitempty"`
+	ShipComplete         string               `xml:"shipComplete,omitempty"`
+	AlcoholRecipientType string               `xml:"alcoholRecipientType,omitempty"`
+	ReceivablesAccount   RecordRef            `xml:"receivablesAccount,omitempty"`
+	LastModifiedDate     DateTime             `xml:"lastModifiedDate,omitempty"`
+	Stage                string               `xml:"stage,omitempty"`
+	IsBudgetApproved     string               `xml:"isBudgetApproved,omitempty"`
+	FirstName            string               `xml:"firstName,omitempty"`
+	LastName             string               `xml:"lastName,omitempty"`
 	CustomFieldList      struct {
 		CustomField CustomFields `xml:"customField"`
 	} `xml:"customFieldList"`
@@ -85,6 +86,23 @@ func (c *CustomField) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error
 
 	c.Type = s.Type
 	return nil
+}
+
+type CustomerCurrencyList []CustomerCurrency
+
+type CustomerCurrency struct {
+	Balance                float64   `xml:"balance,omitempty"`
+	ConsolBalance          float64   `xml:"consolBalance,omitempty"`
+	ConsolDepositBalance   float64   `xml:"consolDepositBalance,omitempty"`
+	ConsolOverdueBalance   float64   `xml:"consolOverdueBalance,omitempty"`
+	ConsolUnbilledOrders   float64   `xml:"consolUnbilledOrders,omitempty"`
+	Currency               RecordRef `xml:"currency,omitempty"`
+	DepositBalance         float64   `xml:"depositBalance,omitempty"`
+	DisplaySymbol          string    `xml:"displaySymbol,omitempty"`
+	OverdueBalance         float64   `xml:"overdueBalance,omitempty"`
+	OverrideCurrencyFormat string    `xml:"overrideCurrencyFormat,omitempty"`
+	SymbolPlacement        string    `xml:"symbolPlacement,omitempty"`
+	UnbilledOrders         float64   `xml:"unbilledOrders,omitempty"`
 }
 
 type Accounts []Account
