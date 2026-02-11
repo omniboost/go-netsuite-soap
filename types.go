@@ -88,7 +88,9 @@ func (c *CustomField) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error
 	return nil
 }
 
-type CustomerCurrencyList []CustomerCurrency
+type CustomerCurrencyList struct {
+	Currency []CustomerCurrency `xml:"currency"`
+}
 
 type CustomerCurrency struct {
 	Balance                float64   `xml:"balance,omitempty"`
