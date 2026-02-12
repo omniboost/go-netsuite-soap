@@ -328,10 +328,11 @@ type Transaction struct {
 		InternalID string `xml:"internalId,attr"`
 		Name       string `xml:"name"`
 	} `xml:"entity"`
-	TranDate string `xml:"tranDate"`
-	TranID   string `xml:"tranId"`
-	Source   string `xml:"source"`
-	Terms    struct {
+	TranDate    string    `xml:"tranDate"`
+	TranID      string    `xml:"tranId"`
+	CreatedFrom RecordRef `xml:"createdFrom,omitempty"`
+	Source      string    `xml:"source"`
+	Terms       struct {
 		Text       string `xml:",chardata"`
 		InternalID string `xml:"internalId,attr"`
 		Name       string `xml:"name"`
@@ -543,6 +544,7 @@ type CreditMemo struct {
 	TranID                string    `xml:"tranId,omitempty"`
 	Department            RecordRef `xml:"department,omitempty"`
 	Terms                 RecordRef `xml:"terms,omitempty"`
+	CreatedFrom           RecordRef `xml:"createdFrom,omitempty"`
 	Subsidiary            RecordRef `xml:"subsidiary,omitempty"`
 	Currency              RecordRef `xml:"currency,omitempty"`
 	DueDate               Date      `xml:"dueDate,omitempty"`
