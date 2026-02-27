@@ -423,6 +423,7 @@ type Transaction struct {
 			Description string `xml:"description"`
 			Amount      string `xml:"amount"`
 			Quantity    string `xml:"quantity"`
+			Rate        string `xml:"rate"`
 			Price       struct {
 				Text       string `xml:",chardata"`
 				InternalID string `xml:"internalId,attr"`
