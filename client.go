@@ -16,6 +16,7 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/omniboost/go-httperr"
 	"github.com/pkg/errors"
 )
 
@@ -331,7 +332,8 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 
 	httpResp, err := c.http.Do(req)
 	if err != nil {
-		return nil, err
+		// wrap error in http error so we can handle it properly
+		return nil, &httperr.Error{StatusCode: httpResp.StatusCode, Err: err}
 	}
 
 	if c.onRequestCompleted != nil {
