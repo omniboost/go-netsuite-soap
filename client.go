@@ -17,7 +17,7 @@ import (
 	"time"
 
 	"github.com/omniboost/go-httperr"
-	"github.com/pkg/errors"
+	"gitlab.com/tozd/go/errors"
 )
 
 const (
@@ -444,13 +444,7 @@ func (c *Client) Unmarshal(r io.Reader, vv ...interface{}) error {
 	}
 
 	if len(errs) == len(vv) {
-		// Everything errored
-		msgs := make([]string, len(errs))
-		for i, e := range errs {
-			log.Println(e)
-			msgs[i] = fmt.Sprint(e)
-		}
-		return errors.New(strings.Join(msgs, ", "))
+		return errors.Join(errs...)
 	}
 
 	return nil
