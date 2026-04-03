@@ -1,6 +1,7 @@
 package netsuite
 
 import (
+	"bufio"
 	"bytes"
 	"context"
 	"encoding/xml"
@@ -15,6 +16,8 @@ import (
 	"strings"
 	"text/template"
 	"time"
+	"unicode"
+	"unicode/utf8"
 
 	"github.com/omniboost/go-httperr"
 	"gitlab.com/tozd/go/errors"
@@ -352,12 +355,6 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 		log.Println(string(dump))
 	}
 
-	// check if the response isn't an error
-	err = CheckResponse(httpResp)
-	if err != nil {
-		return httpResp, err
-	}
-
 	// check the provided interface parameter
 	if httpResp == nil {
 		return httpResp, nil
@@ -370,6 +367,10 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 	if httpResp.ContentLength == 0 {
 		return httpResp, nil
 	}
+
+	// read 512 bytes without draining the response body we may perhaps later
+	// use for error handling
+	peeked, _ := peek(httpResp, 512)
 
 	soapResponse := &ResponseEnvelope{
 		Header: Header{},
@@ -417,6 +418,19 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 
 	if soapFault.Error() != "" {
 		return httpResp, soapFault
+	}
+
+	// no matches on th struct, but we got an error status code, try to return
+	// the response body as error message if its just plain text
+	if httpResp.StatusCode != 0 && (httpResp.StatusCode < 200 || httpResp.StatusCode > 299) {
+		// here the original response body could be just text
+		if isPlainText(peeked) {
+			return httpResp, errors.New(string(peeked))
+		}
+
+		// not text, but still an error status code, return the status as error
+		// message
+		return httpResp, &httperr.Error{StatusCode: httpResp.StatusCode, Err: errors.New(httpResp.Status)}
 	}
 
 	return httpResp, nil
@@ -578,4 +592,27 @@ type StatusResponseBody struct {
 	Node struct {
 		Status Status `xml:"status"`
 	} `xml:",any"`
+}
+
+func isPlainText(b []byte) bool {
+	s := bytes.TrimSpace(b)
+	return utf8.Valid(s) && bytes.IndexFunc(s, func(r rune) bool {
+		return !unicode.IsLetter(r) &&
+			!unicode.IsDigit(r) &&
+			!unicode.IsSpace(r) &&
+			!strings.ContainsRune(`.,!?;:'"()-_/\@#%&*+=`, r)
+	}) == -1
+}
+
+func peek(resp *http.Response, n int) ([]byte, error) {
+	br := bufio.NewReaderSize(resp.Body, n)
+	peeked, err := br.Peek(n)
+	if err != nil && err != io.EOF && err != bufio.ErrBufferFull {
+		return nil, err
+	}
+
+	// Replace the response body with the buffered reader
+	resp.Body = io.NopCloser(br)
+
+	return peeked, nil
 }
