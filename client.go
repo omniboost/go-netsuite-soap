@@ -405,19 +405,19 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 
 	err = c.Unmarshal(httpResp.Body, soapResponse, errResp, faultResp, statusResp)
 	if err != nil {
-		return httpResp, err
+		return httpResp, &httperr.Error{StatusCode: httpResp.StatusCode, Err: err}
 	}
 
 	if statusResponseBody.Node.Status.Error() != "" {
-		return httpResp, statusResponseBody.Node.Status
+		return httpResp, &httperr.Error{StatusCode: httpResp.StatusCode, Err: statusResponseBody.Node.Status}
 	}
 
 	if soapError.Error() != "" {
-		return httpResp, soapError
+		return httpResp, &httperr.Error{StatusCode: httpResp.StatusCode, Err: soapError}
 	}
 
 	if soapFault.Error() != "" {
-		return httpResp, soapFault
+		return httpResp, &httperr.Error{StatusCode: httpResp.StatusCode, Err: soapFault}
 	}
 
 	// no matches on th struct, but we got an error status code, try to return
@@ -425,7 +425,7 @@ func (c *Client) Do(req *http.Request, body interface{}) (*http.Response, error)
 	if httpResp.StatusCode != 0 && (httpResp.StatusCode < 200 || httpResp.StatusCode > 299) {
 		// here the original response body could be just text
 		if isPlainText(peeked) {
-			return httpResp, errors.New(string(peeked))
+			return httpResp, &httperr.Error{StatusCode: httpResp.StatusCode, Err: errors.New(string(peeked))}
 		}
 
 		// not text, but still an error status code, return the status as error
