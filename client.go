@@ -24,14 +24,12 @@ import (
 )
 
 const (
-	libraryVersion = "0.0.1"
-	userAgent      = "go-netsuite-soap/" + libraryVersion
-	mediaType      = "text/xml"
-	charset        = "utf-8"
-)
-
-var (
-	BaseURL string = "https://webservices.netsuite.com/services/NetSuitePort_2022_2"
+	libraryVersion    = "0.0.1"
+	userAgent         = "go-netsuite-soap/" + libraryVersion
+	mediaType         = "text/xml"
+	charset           = "utf-8"
+	defaultAPIVersion = "2022_2"
+	baseURL           = "https://webservices.netsuite.com/services/NetSuitePort_2022_2"
 )
 
 // NewClient returns a new Exact Globe Client client
@@ -43,7 +41,8 @@ func NewClient(httpClient *http.Client) *Client {
 	client := &Client{}
 
 	client.SetHTTPClient(httpClient)
-	client.SetBaseURL(BaseURL)
+	client.SetBaseURL(baseURL)
+	client.SetAPIVersion(defaultAPIVersion)
 	client.SetDebug(false)
 	client.SetUserAgent(userAgent)
 	client.SetMediaType(mediaType)
@@ -60,8 +59,9 @@ type Client struct {
 
 	SearchPreferences *SearchPreferences
 
-	debug   bool
-	baseURL string
+	debug      bool
+	baseURL    string
+	apiVersion string
 
 	// credentials
 	// applicationID string
@@ -154,7 +154,10 @@ func (c Client) BaseURL() (*url.URL, error) {
 	}
 	buf := new(bytes.Buffer)
 	// err = tmpl.Execute(buf, map[string]interface{}{"account_id": c.companyID})
-	err = tmpl.Execute(buf, map[string]interface{}{})
+	err = tmpl.Execute(buf, map[string]interface{}{
+		"api_version": c.APIVersion(),
+	})
+
 	if err != nil {
 		return &url.URL{}, err
 	}
@@ -163,6 +166,14 @@ func (c Client) BaseURL() (*url.URL, error) {
 
 func (c *Client) SetBaseURL(baseURL string) {
 	c.baseURL = baseURL
+}
+
+func (c Client) APIVersion() string {
+	return c.apiVersion
+}
+
+func (c *Client) SetAPIVersion(version string) {
+	c.apiVersion = version
 }
 
 func (c *Client) SetMediaType(mediaType string) {
@@ -234,7 +245,7 @@ func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, er
 	// convert body struct to xml
 	buf := new(bytes.Buffer)
 	if req.RequestBodyInterface() != nil {
-		soapRequest := NewRequestEnvelope()
+		soapRequest := NewRequestEnvelope(c.APIVersion())
 		soapRequest.Body.ActionBody = req.RequestBodyInterface()
 		soapRequest.Header.SearchPreferences = *c.SearchPreferences
 

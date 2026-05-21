@@ -2,6 +2,7 @@ package netsuite
 
 import (
 	"encoding/xml"
+	"fmt"
 
 	"github.com/cydev/zero"
 	"github.com/omniboost/go-netsuite-soap/omitempty"
@@ -9,14 +10,16 @@ import (
 
 type RequestEnvelope struct {
 	XMLName xml.Name
+	Version string `xml:"-"`
 
 	Header Header `xml:"env:Header"`
 	Body   Body   `xml:"env:Body"`
 }
 
-func NewRequestEnvelope() RequestEnvelope {
+func NewRequestEnvelope(version string) RequestEnvelope {
 	return RequestEnvelope{
-		Header: NewHeader(),
+		Version: version,
+		Header:  NewHeader(),
 	}
 }
 
@@ -30,31 +33,36 @@ type ResponseEnvelope struct {
 func (env RequestEnvelope) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	start.Name = xml.Name{Local: "env:Envelope"}
 
+	v := env.Version
+	ns := func(module, domain string) string {
+		return fmt.Sprintf("urn:%s_%s.%s.webservices.netsuite.com", module, v, domain)
+	}
+
 	namespaces := []xml.Attr{
 		{Name: xml.Name{Space: "", Local: "xmlns:xsd"}, Value: "http://www.w3.org/2001/XMLSchema"},
 		{Name: xml.Name{Space: "", Local: "xmlns:xsi"}, Value: "http://www.w3.org/2001/XMLSchema-instance"},
-		{Name: xml.Name{Space: "", Local: "xmlns:platformMsgs"}, Value: "urn:messages_2021_2.platform.webservices.netsuite.com"},
+		{Name: xml.Name{Space: "", Local: "xmlns:platformMsgs"}, Value: ns("messages", "platform")},
 		{Name: xml.Name{Space: "", Local: "xmlns:env"}, Value: "http://schemas.xmlsoap.org/soap/envelope/"},
-		{Name: xml.Name{Space: "", Local: "xmlns:platformCore"}, Value: "urn:core_2021_2.platform.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:platformCommon"}, Value: "urn:common_2021_2.platform.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:listRel"}, Value: "urn:relationships_2021_2.lists.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:tranSales"}, Value: "urn:sales_2021_2.transactions.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:tranPurch"}, Value: "urn:purchases_2021_2.transactions.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:actSched"}, Value: "urn:scheduling_2021_2.activities.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:setupCustom"}, Value: "urn:customization_2021_2.setup.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:listAcct"}, Value: "urn:accounting_2021_2.lists.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:tranBank"}, Value: "urn:bank_2021_2.transactions.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:tranCust"}, Value: "urn:customers_2021_2.transactions.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:tranEmp"}, Value: "urn:employees_2021_2.transactions.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:tranInvt"}, Value: "urn:inventory_2021_2.transactions.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:listSupport"}, Value: "urn:support_2021_2.lists.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:tranGeneral"}, Value: "urn:general_2021_2.transactions.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:commGeneral"}, Value: "urn:communication_2021_2.general.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:listMkt"}, Value: "urn:marketing_2021_2.lists.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:listWebsite"}, Value: "urn:website_2021_2.lists.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:fileCabinet"}, Value: "urn:filecabinet_2021_2.documents.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:listEmp"}, Value: "urn:employees_2021_2.lists.webservices.netsuite.com"},
-		{Name: xml.Name{Space: "", Local: "xmlns:messages"}, Value: "urn:messages_2017_1.platform.webservices.netsuite.com"},
+		{Name: xml.Name{Space: "", Local: "xmlns:platformCore"}, Value: ns("core", "platform")},
+		{Name: xml.Name{Space: "", Local: "xmlns:platformCommon"}, Value: ns("common", "platform")},
+		{Name: xml.Name{Space: "", Local: "xmlns:listRel"}, Value: ns("relationships", "lists")},
+		{Name: xml.Name{Space: "", Local: "xmlns:tranSales"}, Value: ns("sales", "transactions")},
+		{Name: xml.Name{Space: "", Local: "xmlns:tranPurch"}, Value: ns("purchases", "transactions")},
+		{Name: xml.Name{Space: "", Local: "xmlns:actSched"}, Value: ns("scheduling", "activities")},
+		{Name: xml.Name{Space: "", Local: "xmlns:setupCustom"}, Value: ns("customization", "setup")},
+		{Name: xml.Name{Space: "", Local: "xmlns:listAcct"}, Value: ns("accounting", "lists")},
+		{Name: xml.Name{Space: "", Local: "xmlns:tranBank"}, Value: ns("bank", "transactions")},
+		{Name: xml.Name{Space: "", Local: "xmlns:tranCust"}, Value: ns("customers", "transactions")},
+		{Name: xml.Name{Space: "", Local: "xmlns:tranEmp"}, Value: ns("employees", "transactions")},
+		{Name: xml.Name{Space: "", Local: "xmlns:tranInvt"}, Value: ns("inventory", "transactions")},
+		{Name: xml.Name{Space: "", Local: "xmlns:listSupport"}, Value: ns("support", "lists")},
+		{Name: xml.Name{Space: "", Local: "xmlns:tranGeneral"}, Value: ns("general", "transactions")},
+		{Name: xml.Name{Space: "", Local: "xmlns:commGeneral"}, Value: ns("communication", "general")},
+		{Name: xml.Name{Space: "", Local: "xmlns:listMkt"}, Value: ns("marketing", "lists")},
+		{Name: xml.Name{Space: "", Local: "xmlns:listWebsite"}, Value: ns("website", "lists")},
+		{Name: xml.Name{Space: "", Local: "xmlns:fileCabinet"}, Value: ns("filecabinet", "documents")},
+		{Name: xml.Name{Space: "", Local: "xmlns:listEmp"}, Value: ns("employees", "lists")},
+		{Name: xml.Name{Space: "", Local: "xmlns:messages"}, Value: ns("messages", "platform")},
 	}
 	for _, ns := range namespaces {
 		start.Attr = append(start.Attr, ns)
