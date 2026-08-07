@@ -681,6 +681,14 @@ func (j StatisticalJournalEntryLine) IsEmpty() bool {
 type CustomRecords []CustomRecord
 
 type CustomRecord struct {
+	InternalID      string    `xml:"internalId,attr,omitempty"`
+	ExternalID      string    `xml:"externalId,attr,omitempty"`
+	Name            string    `xml:"name,omitempty"`
+	IsInactive      bool      `xml:"isInactive,omitempty"`
+	RecType         RecordRef `xml:"recType,omitempty"`
+	CustomFieldList struct {
+		CustomField CustomFields `xml:"customField"`
+	} `xml:"customFieldList,omitempty"`
 }
 
 type CustomFieldTypes []CustomFieldType

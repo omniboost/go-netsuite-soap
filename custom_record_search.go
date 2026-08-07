@@ -166,6 +166,7 @@ func (r *CustomRecordSearchRequest) Do() (CustomRecordSearchRequestResponseBody,
 }
 
 type CustomRecordSearchBasic struct {
+	RecType RecordRef `xml:"platformCommon:recType,omitempty"`
 }
 
 func (c CustomRecordSearchBasic) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
