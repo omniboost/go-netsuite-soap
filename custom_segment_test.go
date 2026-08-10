@@ -46,6 +46,15 @@ func TestCustomSegmentDefinition(t *testing.T) {
 	fmt.Println(string(b))
 }
 
+// Note: fetching a segment's definition directly by scriptId via
+// CustomRecordRef (rather than internalId via RecordRef, as above) does
+// NOT work - confirmed INVALID_KEY_OR_REF for both the segment's own
+// scriptId ("cseg1") and its record type's scriptId ("customrecord_cseg1").
+// To resolve a segment's recordType internalId starting only from its
+// scriptId, use two calls: getCustomizationId(customSegment) to map
+// scriptId -> segment internalId (see TestCustomSegmentDiscovery), then
+// the RecordRef get above to map segment internalId -> recordType internalId.
+
 // TestCustomSegmentValues lists the possible values (rows in the segment's
 // underlying custom record type) that can be set on cseg1.
 // Requires "value management" permission for the segment.

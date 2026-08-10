@@ -97,7 +97,7 @@ type CustomRecordRefGetRequestBody struct {
 		ExternalID string `xml:"externalId,attr,omitempty"`
 		InternalID string `xml:"internalId,attr,omitempty"`
 		XSIType    string `xml:"xsi:type,attr"`
-		Type       string `xml:"type,attr"`
+		Type       string `xml:"type,attr,omitempty"`
 		TypeID     string `xml:"typeId,attr,omitempty"`
 		Xmlns      string `xml:"xmlns:q1,attr"`
 	} `xml:"baseRef"`
