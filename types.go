@@ -129,6 +129,12 @@ type Account struct {
 		CustomFields CustomFields `xml:"customField"`
 	} `xml:"customFieldList"`
 	Currency RecordRef `xml:"currency"`
+	// Only filled when acctType is _statistical: the type of unit associated
+	// with the statistical account.
+	UnitsType RecordRef `xml:"unitsType"`
+	// Only filled when acctType is _statistical: the base unit assigned to the
+	// unitsType. Fixed when the account is created.
+	Unit RecordRef `xml:"unit"`
 }
 
 type Departments []Department
