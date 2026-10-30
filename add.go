@@ -29,6 +29,17 @@ type AddRequest struct {
 	method      string
 	headers     http.Header
 	requestBody AddRequestBody
+	preferences *Preferences
+}
+
+// SetPreferences sets the preferences header for this request only. It
+// replaces the client-level Preferences.
+func (r *AddRequest) SetPreferences(p Preferences) {
+	r.preferences = &p
+}
+
+func (r AddRequest) Preferences() *Preferences {
+	return r.preferences
 }
 
 func (r AddRequest) SOAPAction() string {

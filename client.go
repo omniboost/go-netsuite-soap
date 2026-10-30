@@ -250,6 +250,9 @@ func (c *Client) NewRequest(ctx context.Context, req Request) (*http.Request, er
 		soapRequest := NewRequestEnvelope(c.APIVersion())
 		soapRequest.Body.ActionBody = req.RequestBodyInterface()
 		soapRequest.Header.Preferences = *c.Preferences
+		if pr, ok := req.(PreferencesRequest); ok && pr.Preferences() != nil {
+			soapRequest.Header.Preferences = *pr.Preferences()
+		}
 		soapRequest.Header.SearchPreferences = *c.SearchPreferences
 
 		// Add passport header

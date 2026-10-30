@@ -44,3 +44,30 @@ func TestRunServerSuiteScriptAndTriggerWorkflowsPreference(t *testing.T) {
 		t.Errorf("want %s in header, got:\n%s", want, xml)
 	}
 }
+
+func TestRequestPreferencesDoNotLeakToClient(t *testing.T) {
+	c := netsuite.NewClient(nil)
+	c.SetAccountID("123_SB1")
+
+	req := c.NewAddRequest()
+	req.RequestBody().Record.Type = "tranGeneral:StatisticalJournalEntry"
+	req.RequestBody().Record.Record = netsuite.StatisticalJournalEntry{}
+	req.SetPreferences(netsuite.Preferences{RunServerSuiteScriptAndTriggerWorkflows: true})
+
+	httpReq, err := c.NewRequest(context.Background(), &req)
+	if err != nil {
+		t.Fatal(err)
+	}
+	b, err := io.ReadAll(httpReq.Body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(b), "<platformMsgs:runServerSuiteScriptAndTriggerWorkflows>true<") {
+		t.Errorf("request-level preference missing from header:\n%s", b)
+	}
+
+	// another request on the same client must not carry the preference
+	if xml := addRequestXML(t, c); strings.Contains(xml, "runServerSuiteScriptAndTriggerWorkflows") {
+		t.Errorf("request-level preference leaked to the client, got:\n%s", xml)
+	}
+}
