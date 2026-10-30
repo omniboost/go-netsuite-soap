@@ -114,6 +114,17 @@ type TokenPassport struct {
 }
 
 type Preferences struct {
+	// Request-level preference: run user event scripts and workflows for the
+	// records in this request.
+	RunServerSuiteScriptAndTriggerWorkflows bool `xml:"platformMsgs:runServerSuiteScriptAndTriggerWorkflows,omitempty"`
+}
+
+func (p Preferences) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
+	return omitempty.MarshalXML(p, e, start)
+}
+
+func (p Preferences) IsEmpty() bool {
+	return zero.IsZero(p)
 }
 
 type SearchPreferences struct {
